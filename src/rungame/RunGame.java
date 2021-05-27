@@ -43,7 +43,7 @@ public class RunGame {
         game.init();
         running = true;
 
-        timer = new Timer(RunGame.TICK * 1 / 5, new GameLoop(game));
+        timer = new Timer(RunGame.TICK, new GameLoop(game));
         timer.setInitialDelay(0);
         timer.start();
     }
