@@ -1,8 +1,13 @@
 package rungame;
 
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
-import java.awt.EventQueue;
+import rungame.frame.Display;
+import rungame.frame.GamePanel;
+import rungame.game.Input;
+import rungame.game.states.Game;
+import rungame.game.states.GameLoop;
 
 public class RunGame {
     private static Display display;
@@ -13,15 +18,15 @@ public class RunGame {
     private static Timer timer;
     public static final int TICK = 10;
     public static final int SUMMON_MONSTER_TIME = (int)(10.0d * (1000.0d / TICK));
-    public static final int MONSTER_MOVE_TIME = (int)(0.2d * (1000.0d / TICK));
-    public static final int PLAYER_MOVE_TIME = (int)(0.1d * (1000.0d / TICK));
+    public static final int MONSTER_MOVE_TIME = (int)(0.16d * (1000.0d / TICK));
+    public static final int PLAYER_MOVE_TIME = (int)(0.08d * (1000.0d / TICK));
 
     /*public static final int TICK = 10;
     public static final int TICK = 10;
     public static final int TICK = 10;
     public static final int TICK = 10;*/
     public static void main(String[] args) {
-        EventQueue.invokeLater(
+        SwingUtilities.invokeLater(
             new Runnable() {
                 @Override
                 public void run() {

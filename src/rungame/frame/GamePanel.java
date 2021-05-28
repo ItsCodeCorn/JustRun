@@ -1,4 +1,6 @@
-package rungame;
+package rungame.frame;
+
+import java.util.LinkedList;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -6,14 +8,22 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+import rungame.game.entities.StaticEntity;
+import rungame.game.states.Game;
+
 public class GamePanel extends JPanel {
     private Game game;
     private long startTime;
     private long previousTime;
     private long currentTime;
 
+    private LinkedList<StaticEntity> drawableEntities;
+    private LinkedList<String> drawableStrings;
+
     public GamePanel(Game game) {
         this.game = game;
+        drawableEntities = new LinkedList<StaticEntity>();
+        drawableStrings = new LinkedList<String>();
 
         setFocusable(true);
         requestFocus();
@@ -28,8 +38,7 @@ public class GamePanel extends JPanel {
         g.setColor(new Color(50, 50, 50));
         g.fillRect(0, 0, game.getMapWidth() * 25, game.getMapHeight() * 25);
 
-        game.getEntities().forEach(entity -> entity.draw(g));
-        game.getStaticEntities().forEach(entity -> entity.draw(g));
+        drawableEntities.forEach(entity -> entity.draw(g));
 
         currentTime = System.currentTimeMillis();
 
@@ -39,6 +48,13 @@ public class GamePanel extends JPanel {
         g.drawString("Times: " + Double.toString((currentTime - startTime) / 1000.0d), 1100, 50);
         previousTime = currentTime;
 
+    }
+
+    public void addDrawable(StaticEntity entity) {
+        drawableEntities.addFirst(entity);
+    }
+    public void removeDrawable(StaticEntity entity) {
+        drawableEntities.remove(entity);
     }
 
     public void render() {

@@ -1,6 +1,8 @@
-package rungame;
+package rungame.game.entities;
 
 import java.util.LinkedList;
+
+import rungame.RunGame;
 
 import java.awt.Rectangle;
 import java.awt.Point;

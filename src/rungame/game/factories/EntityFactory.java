@@ -1,4 +1,8 @@
-package rungame;
+package rungame.game.factories;
+
+import rungame.game.entities.Monster;
+import rungame.game.entities.Player;
+import rungame.game.entities.Wall;
 
 public class EntityFactory {
     public static Player createPlayer(int x, int y) {

@@ -1,4 +1,4 @@
-package rungame;
+package rungame.frame;
 
 import javax.swing.JFrame;
 

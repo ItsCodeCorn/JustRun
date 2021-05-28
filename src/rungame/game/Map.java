@@ -1,4 +1,4 @@
-package rungame;
+package rungame.game;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -35,7 +35,7 @@ public class Map {
         Map m = new Map(1, 1);
 
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(new File("res/" + filename + ".txt")));
+            BufferedReader reader = new BufferedReader(new FileReader(new File("res/levels/" + filename + ".txt")));
 
             m = new Map(Integer.parseInt(reader.readLine()), Integer.parseInt(reader.readLine()));
 

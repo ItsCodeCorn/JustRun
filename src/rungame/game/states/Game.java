@@ -1,6 +1,17 @@
-package rungame;
+package rungame.game.states;
 
 import java.util.LinkedList;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+
+import rungame.RunGame;
+import rungame.game.Map;
+import rungame.game.entities.Entity;
+import rungame.game.entities.Monster;
+import rungame.game.entities.Player;
+import rungame.game.entities.StaticEntity;
+import rungame.game.factories.EntityFactory;
 
 public class Game {
     private Map map;
@@ -25,6 +36,9 @@ public class Game {
         addAllWall();
 
         entities.addFirst(player);
+
+        entities.forEach(entity -> addDrawable(entity));
+        staticEntities.forEach(entity -> addDrawable(entity));
     }
 
     private void addAllWall() {
@@ -53,9 +67,19 @@ public class Game {
             return;
         }
 
-        entities.remove(player);
+        removeDrawable(player);
         RunGame.getGamePanel().render();
         RunGame.getTimer().stop();
+
+        displayGameOver();
+    }
+
+    private void displayGameOver() {
+        JLabel gameOver = new JLabel(new ImageIcon("res/GameOver.png"));
+
+        gameOver.setBounds(0, 0, 500, 250);
+        gameOver.setLocation(390, 235);
+        RunGame.getGamePanel().add(gameOver);
     }
 
     public void summonMonster() {
@@ -67,8 +91,16 @@ public class Game {
         Monster monster = EntityFactory.createMonster(18, 18);
         monster.printMap();
         entities.addFirst(monster);
+        addDrawable(monster);
 
         summonMonsterTimer = RunGame.SUMMON_MONSTER_TIME;
+    }
+
+    public void addDrawable(StaticEntity entity) {
+        RunGame.getGamePanel().addDrawable(entity);
+    }
+    public void removeDrawable(StaticEntity entity) {
+        RunGame.getGamePanel().removeDrawable(entity);
     }
 
     public int getMapWidth() {

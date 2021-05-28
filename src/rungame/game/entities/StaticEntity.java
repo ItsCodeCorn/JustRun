@@ -1,10 +1,16 @@
-package rungame;
+package rungame.game.entities;
 
 import java.awt.Rectangle;
+
+import rungame.RunGame;
+import rungame.game.Sprite;
+import rungame.game.factories.SpriteFactory;
+import rungame.game.states.Game;
+
 import java.awt.Point;
 import java.awt.Graphics;
 
-abstract class StaticEntity {
+public abstract class StaticEntity {
     protected Sprite sprite;
     protected Rectangle bounds;
     protected char sign;

@@ -1,8 +1,10 @@
-package rungame;
+package rungame.game.entities;
 
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.LinkedList;
+
+import rungame.RunGame;
 
 public class Monster extends Entity {
     private Player player;

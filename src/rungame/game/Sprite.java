@@ -1,4 +1,4 @@
-package rungame;
+package rungame.game;
 
 import java.awt.Graphics;
 import java.awt.Image;

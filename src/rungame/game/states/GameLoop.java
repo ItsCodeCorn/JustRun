@@ -1,6 +1,9 @@
-package rungame;
+package rungame.game.states;
 
 import java.awt.event.ActionListener;
+
+import rungame.RunGame;
+
 import java.awt.event.ActionEvent;
 
 public class GameLoop implements ActionListener {
