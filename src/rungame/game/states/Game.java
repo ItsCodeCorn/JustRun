@@ -1,6 +1,10 @@
 package rungame.game.states;
 
 import java.util.LinkedList;
+import java.lang.Math;
+import java.util.Vector;
+import java.awt.Point;
+import java.awt.Rectangle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -88,12 +92,32 @@ public class Game {
             return;
         }
 
-        Monster monster = EntityFactory.createMonster(18, 18);
+        Point loc = getRandomLocation();
+
+        Monster monster = EntityFactory.createMonster(loc.x, loc.y);
         monster.printMap();
         entities.addFirst(monster);
         addDrawable(monster);
 
         summonMonsterTimer = RunGame.SUMMON_MONSTER_TIME;
+    }
+
+    public Point getRandomLocation() {
+        Vector<Point> pool = new Vector<>();
+
+        Rectangle p = player.getBounds();
+        p.x /= 25;
+        p.y /= 25;
+
+        for (int x = 0; x < getMapWidth(); ++x) {
+            for (int y = 0; y < getMapHeight(); ++y) {
+                if (getMapChar(x, y) == ' ' && ((x < p.x - 3 || x > p.x + 3) || (y < p.y - 3 || y > p.y + 3))) {
+                    pool.add(new Point(x, y));
+                }
+            }
+        }
+
+        return pool.get((int)Math.floor(Math.random() * pool.size()));
     }
 
     public void addDrawable(StaticEntity entity) {
