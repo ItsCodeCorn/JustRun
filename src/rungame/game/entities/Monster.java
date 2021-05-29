@@ -4,17 +4,19 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.LinkedList;
 
-import rungame.RunGame;
+import rungame.framework.Engine;
+import rungame.framework.resources.Resources;
+import rungame.game.utils.Counter;
 
 public class Monster extends Entity {
     private Player player;
 
     public Monster(int x, int y) {
-        super("Monster", 'M', new Rectangle(x, y, 25, 25));
+        super(Resources.MONSTER, 'M', new Rectangle(x, y, 25, 25));
 
-        moveTime = RunGame.MONSTER_MOVE_TIME;
+        moveTimeCounter = new Counter(Engine.MONSTER_MOVE_TIME);
 
-        player = RunGame.getGame().getPlayer();
+        player = Engine.getPlayer();
         hasCollision = new LinkedList<>();
 
         hasCollision.addFirst('*');
@@ -23,8 +25,7 @@ public class Monster extends Entity {
 
     @Override
     public void action() {
-        if (!canMove()) {
-            countDownMoveTimer();
+        if (!moveTimeCounter.count()) {
             return;
         }
 
@@ -44,10 +45,8 @@ public class Monster extends Entity {
         }
 
         if (player.getLocation().equals(getLocation())) {
-            RunGame.getGame().setGameOver(true);
+            Engine.getPlayingState().setGameOver(true);
         }
-
-        resetMoveTimer();
     }
 
 }

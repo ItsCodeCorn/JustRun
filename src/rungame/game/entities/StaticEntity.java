@@ -2,10 +2,11 @@ package rungame.game.entities;
 
 import java.awt.Rectangle;
 
-import rungame.RunGame;
-import rungame.game.Sprite;
-import rungame.game.factories.SpriteFactory;
-import rungame.game.states.Game;
+import rungame.framework.Engine;
+import rungame.framework.resources.Resources;
+import rungame.framework.resources.Sprite;
+import rungame.game.RunGame;
+import rungame.game.states.PlayingState;
 
 import java.awt.Point;
 import java.awt.Graphics;
@@ -15,15 +16,15 @@ public abstract class StaticEntity {
     protected Rectangle bounds;
     protected char sign;
 
-    public StaticEntity(String type, char sign, Rectangle bounds) {
-        sprite = SpriteFactory.getSprite(type);
+    public StaticEntity(int texture, char sign, Rectangle bounds) {
+        sprite = Resources.getSprite(texture);
 
         this.sign = sign;
         this.bounds = bounds;
     }
 
     public void printMap() {
-        Game game = RunGame.getGame();
+        PlayingState game = Engine.getPlayingState();
         Rectangle rec = bounds.getBounds();
         rec.x /= 25;
         rec.y /= 25;
@@ -37,7 +38,7 @@ public abstract class StaticEntity {
         }
     }
     public void eraseMap() {
-        Game game = RunGame.getGame();
+        PlayingState game = Engine.getPlayingState();
         Rectangle rec = bounds.getBounds();
         rec.x /= 25;
         rec.y /= 25;

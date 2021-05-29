@@ -2,16 +2,20 @@ package rungame.game.entities;
 
 import java.util.LinkedList;
 
-import rungame.RunGame;
+import rungame.framework.Engine;
+import rungame.framework.gui.Input;
+import rungame.framework.resources.Resources;
+import rungame.game.RunGame;
+import rungame.game.utils.Counter;
 
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 
 public class Player extends Entity {
     public Player(int x, int y) {
-        super("Player", 'P', new Rectangle(x, y, 25, 25));
+        super(Resources.PLAYER, 'P', new Rectangle(x, y, 25, 25));
 
-        moveTime = RunGame.PLAYER_MOVE_TIME;
+        moveTimeCounter = new Counter(0);
 
         hasCollision = new LinkedList<>();
         hasCollision.addFirst('*');
@@ -20,33 +24,30 @@ public class Player extends Entity {
 
     @Override
     public void action() {
-        if (canMove()) {
-            if (RunGame.getInput().isPressed(KeyEvent.VK_UP) || RunGame.getInput().isPressed(KeyEvent.VK_W)) {
+        if (moveTimeCounter.count()) {
+            moveTimeCounter.setFinishedCount(0);
+
+            if (Input.isPressed(KeyEvent.VK_UP) || Input.isPressed(KeyEvent.VK_W)) {
                 moveDistance(0, -25);
-                resetMoveTimer();
+                moveTimeCounter.setFinishedCount(Engine.PLAYER_MOVE_TIME);
             }
 
-            if (RunGame.getInput().isPressed(KeyEvent.VK_DOWN) || RunGame.getInput().isPressed(KeyEvent.VK_S)) {
+            if (Input.isPressed(KeyEvent.VK_DOWN) || Input.isPressed(KeyEvent.VK_S)) {
                 moveDistance(0, 25);
-                resetMoveTimer();
+                moveTimeCounter.setFinishedCount(Engine.PLAYER_MOVE_TIME);
             }
 
-            if (RunGame.getInput().isPressed(KeyEvent.VK_LEFT) || RunGame.getInput().isPressed(KeyEvent.VK_A)) {
+            if (Input.isPressed(KeyEvent.VK_LEFT) || Input.isPressed(KeyEvent.VK_A)) {
                 moveDistance(-25, 0);
-                resetMoveTimer();
+                moveTimeCounter.setFinishedCount(Engine.PLAYER_MOVE_TIME);
             }
 
-            if (RunGame.getInput().isPressed(KeyEvent.VK_RIGHT) || RunGame.getInput().isPressed(KeyEvent.VK_D)) {
+            if (Input.isPressed(KeyEvent.VK_RIGHT) || Input.isPressed(KeyEvent.VK_D)) {
                 moveDistance(25, 0);
-                resetMoveTimer();
+                moveTimeCounter.setFinishedCount(Engine.PLAYER_MOVE_TIME);
             }
 
             speed.setLocation(0, 0);
         }
-
-        if (getMoveTimer() > 0) {
-            countDownMoveTimer();
-        }
     }
-
 }
