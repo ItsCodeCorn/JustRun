@@ -1,4 +1,4 @@
-package rungame.game;
+package rungame.game.map;
 
 import java.io.BufferedReader;
 import java.io.File;

@@ -5,7 +5,6 @@ import java.awt.Rectangle;
 import rungame.framework.Engine;
 import rungame.framework.resources.Resources;
 import rungame.framework.resources.Sprite;
-import rungame.game.RunGame;
 import rungame.game.states.PlayingState;
 
 import java.awt.Point;

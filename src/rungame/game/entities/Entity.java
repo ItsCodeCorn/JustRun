@@ -3,8 +3,7 @@ package rungame.game.entities;
 import java.util.LinkedList;
 
 import rungame.framework.Engine;
-import rungame.game.RunGame;
-import rungame.game.utils.Counter;
+import rungame.framework.utils.Counter;
 
 import java.awt.Rectangle;
 import java.awt.Point;

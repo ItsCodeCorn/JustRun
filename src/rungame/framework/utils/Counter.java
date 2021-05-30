@@ -1,4 +1,4 @@
-package rungame.game.utils;
+package rungame.framework.utils;
 
 public class Counter {
     private int nowCount;

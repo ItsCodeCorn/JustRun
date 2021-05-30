@@ -5,8 +5,7 @@ import java.util.LinkedList;
 import rungame.framework.Engine;
 import rungame.framework.gui.Input;
 import rungame.framework.resources.Resources;
-import rungame.game.RunGame;
-import rungame.game.utils.Counter;
+import rungame.framework.utils.Counter;
 
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;

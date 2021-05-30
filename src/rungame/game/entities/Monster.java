@@ -6,7 +6,7 @@ import java.util.LinkedList;
 
 import rungame.framework.Engine;
 import rungame.framework.resources.Resources;
-import rungame.game.utils.Counter;
+import rungame.framework.utils.Counter;
 
 public class Monster extends Entity {
     private Player player;
@@ -21,6 +21,7 @@ public class Monster extends Entity {
 
         hasCollision.addFirst('*');
         hasCollision.addFirst('M');
+        hasCollision.addFirst('U');
     }
 
     @Override

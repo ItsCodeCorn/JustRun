@@ -12,27 +12,36 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import rungame.framework.Engine;
-import rungame.game.Map;
+import rungame.framework.utils.Counter;
 import rungame.game.RunGame;
 import rungame.game.entities.Entity;
+import rungame.game.entities.items.Item;
 import rungame.game.entities.Monster;
 import rungame.game.entities.Player;
 import rungame.game.entities.StaticEntity;
+import rungame.game.entities.Wall;
 import rungame.game.factories.EntityFactory;
+import rungame.game.map.Map;
 
 public class PlayingState extends State {
     private Map map;
     private Player player;
     private LinkedList<Entity> entities;
-    private LinkedList<StaticEntity> staticEntities;
-    private int summonMonsterTimer;
+    private LinkedList<Wall> walls;
+    private LinkedList<Item> items;
+    private int itemEffect;
+    private Counter summonMonsterCounter;
+    private Counter summonItemCounter;
     private boolean gameOver;
 
     public PlayingState() {
         map = Map.loadMap("Level");
         entities = new LinkedList<>();
-        staticEntities = new LinkedList<>();
-        summonMonsterTimer = 0;
+        walls = new LinkedList<>();
+        items = new LinkedList<>();
+        itemEffect = 0;
+        summonMonsterCounter = new Counter(Engine.SUMMON_MONSTER_TIME);
+        summonItemCounter = new Counter(Engine.SUMMON_ITEM_TIME);
         gameOver = false;
     }
 
@@ -43,15 +52,23 @@ public class PlayingState extends State {
         addAllWall();
 
         entities.addFirst(player);
+
+        summonMonsterCounter.setFinishedCount(0);
+        summonMonster();
+        summonMonsterCounter.setFinishedCount(Engine.SUMMON_MONSTER_TIME);
     }
 
     @Override
     public void tick() {
         entities.forEach(entity -> entity.action());
 
+        checkPickUpItem();
         checkGameOver();
 
+        //checkItemsEffect();
+
         summonMonster();
+        summonItem();
     }
 
     @Override
@@ -59,15 +76,16 @@ public class PlayingState extends State {
         g.setColor(new Color(50, 50, 50));
         g.fillRect(0, 0, getMapWidth() * 25, getMapHeight() * 25);
 
+        walls.forEach(entity -> entity.draw(g));
         entities.forEach(entity -> entity.draw(g));
-        staticEntities.forEach(entity -> entity.draw(g));
+        items.forEach(entity -> entity.draw(g));
     }
 
     private void addAllWall() {
         for (int x = 0; x < map.getWidth(); ++x) {
             for (int y = 0; y < map.getHeight(); ++y) {
                 if (map.getChar(x, y) == '*') {
-                    staticEntities.addFirst(EntityFactory.createWall(x, y));
+                    walls.addFirst(EntityFactory.createWall(x, y));
                 }
             }
         }
@@ -103,8 +121,7 @@ public class PlayingState extends State {
     }
 */
     public void summonMonster() {
-        if (summonMonsterTimer != 0) {
-            --summonMonsterTimer;
+        if (!summonMonsterCounter.count()) {
             return;
         }
 
@@ -113,8 +130,18 @@ public class PlayingState extends State {
         Monster monster = EntityFactory.createMonster(loc.x, loc.y);
         monster.printMap();
         entities.addFirst(monster);
+    }
 
-        summonMonsterTimer = Engine.SUMMON_MONSTER_TIME;
+    public void summonItem() {
+        if (!summonItemCounter.count()) {
+            return;
+        }
+
+        Point loc = getRandomLocation();
+
+        Item item = EntityFactory.createRandomItem(loc.x, loc.y);
+        item.printMap();
+        items.addFirst(item);
     }
 
     public Point getRandomLocation() {
@@ -126,7 +153,7 @@ public class PlayingState extends State {
 
         for (int x = 0; x < getMapWidth(); ++x) {
             for (int y = 0; y < getMapHeight(); ++y) {
-                if (getMapChar(x, y) == ' ' && ((x < p.x - 3 || x > p.x + 3) || (y < p.y - 3 || y > p.y + 3))) {
+                if (getMapChar(x, y) == ' ' && ((x < p.x - 4 || x > p.x + 4) || (y < p.y - 4 || y > p.y + 4))) {
                     pool.add(new Point(x, y));
                 }
             }
@@ -134,6 +161,23 @@ public class PlayingState extends State {
 
         return pool.get((int)Math.floor(Math.random() * pool.size()));
     }
+/*
+    public void checkItemsEffect() {
+        if () {
+
+        }
+    }*/
+
+    public void checkPickUpItem() {
+        for (Item item : items) {
+            if (item.getLocation().equals(player.getLocation())) {
+                items.remove(item);
+                // TODO: pick up item
+                return;
+            }
+        }
+    }
+
 
     public int getMapWidth() {
         return map.getWidth();
@@ -155,7 +199,7 @@ public class PlayingState extends State {
     public LinkedList<Entity> getEntities() {
         return entities;
     }
-    public LinkedList<StaticEntity> getStaticEntities() {
-        return staticEntities;
+    public LinkedList<Wall> getWalls() {
+        return walls;
     }
 }

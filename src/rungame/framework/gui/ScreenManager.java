@@ -26,7 +26,6 @@ public class ScreenManager {
 
     public void createWindow() {
         frame.setContentPane(gameScreen);
-
         frame.setVisible(true);
     }
 

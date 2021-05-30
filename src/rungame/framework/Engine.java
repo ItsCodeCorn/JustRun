@@ -15,9 +15,10 @@ public class Engine {
     private static PlayingState playingState;
     private static ScreenManager screenManager;
     private static Timer timer;
-    public static final int TICK = 60; // 0.06s
+    public static final int TICK = 60; // 0.05s
     private static boolean running;
     public static final int SUMMON_MONSTER_TIME = (int)(10.0d * (1000.0d / TICK));
+    public static final int SUMMON_ITEM_TIME = (int)(5.0d * (1000.0d / TICK));
     public static final int MONSTER_MOVE_TIME = (int)(0.22d * (1000.0d / TICK));
     public static final int PLAYER_MOVE_TIME = (int)(0.12d * (1000.0d / TICK));
 
