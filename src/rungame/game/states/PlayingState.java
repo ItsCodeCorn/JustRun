@@ -46,6 +46,7 @@ public class PlayingState extends State {
 
         effects.add(new SpeedUpPlayerEffect());
         effects.add(new SpeedDownMonsterEffect());
+        effects.add(new EliminateMonstersEffect());
 
         summonMonsterCounter = new Counter(Engine.SUMMON_MONSTER_TIME);
         summonItemCounter = new Counter(Engine.SUMMON_ITEM_TIME);
@@ -73,6 +74,7 @@ public class PlayingState extends State {
 
         checkPickUpItems();
         checkItemsEffect();
+        printAllItems();
 
         summonMonster();
         summonItem();
@@ -96,6 +98,10 @@ public class PlayingState extends State {
                 }
             }
         }
+    }
+
+    public void printAllItems() {
+        items.forEach(item -> item.printMap());
     }
 
     public boolean isCollideWith(int x, int y, char sign) {

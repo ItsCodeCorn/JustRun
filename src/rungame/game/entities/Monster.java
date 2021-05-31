@@ -23,6 +23,7 @@ public class Monster extends Entity {
         hasCollision.addFirst('M');
         hasCollision.addFirst('U');
         hasCollision.addFirst('D');
+        hasCollision.addFirst('E');
     }
 
     @Override

@@ -13,7 +13,7 @@ public class SpeedDownMonsterEffect extends Effect {
             if (entity == Engine.getPlayer()) {
                 continue;
             }
-            entity.setMoveTime((int)(Engine.MONSTER_MOVE_TIME * 9 / 3 + 0.5));
+            entity.setMoveTime((int)(Engine.MONSTER_MOVE_TIME * 6 / 3 + 0.5));
         }
     }
 

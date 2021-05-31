@@ -7,5 +7,6 @@ public class ResourcesLoader {
         Resources.load(Resources.MONSTER);
         Resources.load(Resources.SPEED_UP_PLAYER_ITEM);
         Resources.load(Resources.SPEED_DOWN_MONSTER_ITEM);
+        Resources.load(Resources.ELIMINATE_MONSTERS_ITEM);
     }
 }

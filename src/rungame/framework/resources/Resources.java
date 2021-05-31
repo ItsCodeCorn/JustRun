@@ -10,6 +10,7 @@ public class Resources {
     public static final int MONSTER = 2;
     public static final int SPEED_UP_PLAYER_ITEM = 3;
     public static final int SPEED_DOWN_MONSTER_ITEM = 4;
+    public static final int ELIMINATE_MONSTERS_ITEM = 5;
     //public static final int _ITEM = 5;
     //public static final int _ITEM = 6;
 
@@ -35,6 +36,10 @@ public class Resources {
 
             case SPEED_DOWN_MONSTER_ITEM:
                 TEXTURES.add(SpriteFactory.getSprite("SpeedDownMonsterItem"));
+                break;
+
+            case ELIMINATE_MONSTERS_ITEM:
+                TEXTURES.add(SpriteFactory.getSprite("EliminateMonstersItem"));
                 break;
 
             default:

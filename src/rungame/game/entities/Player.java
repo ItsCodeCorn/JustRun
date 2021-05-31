@@ -45,8 +45,6 @@ public class Player extends Entity {
                 moveDistance(25, 0);
                 moveTimeCounter.setFinishedCount(Engine.PLAYER_MOVE_TIME);
             }
-
-            speed.setLocation(0, 0);
         }
     }
 }

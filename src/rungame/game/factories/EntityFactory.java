@@ -19,7 +19,7 @@ public class EntityFactory {
         return wall;
     }
     public static EffectItem createRandomItem(int x, int y) {
-        int rd = (int)(Math.random() * 2);
+        int rd = (int)(Math.random() * 3);
 
         EffectItem item = null;
 
@@ -30,6 +30,10 @@ public class EntityFactory {
 
         case 1:
             item = new SpeedDownMonsterItem(x * 25, y * 25);
+            break;
+
+        case 2:
+            item = new EliminateMonstersItem(x * 25, y * 25);
             break;
         }
 
