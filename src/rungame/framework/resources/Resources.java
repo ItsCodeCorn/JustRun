@@ -30,8 +30,12 @@ public class Resources {
                 break;
 
             case SPEED_UP_PLAYER_ITEM:
-            TEXTURES.add(SpriteFactory.getSprite("SpeedUpPlayerItem"));
-            break;
+                TEXTURES.add(SpriteFactory.getSprite("SpeedUpPlayerItem"));
+                break;
+
+            case SPEED_DOWN_MONSTER_ITEM:
+                TEXTURES.add(SpriteFactory.getSprite("SpeedDownMonsterItem"));
+                break;
 
             default:
                 break;

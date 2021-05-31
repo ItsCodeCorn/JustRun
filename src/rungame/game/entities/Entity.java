@@ -19,6 +19,10 @@ public abstract class Entity extends StaticEntity {
         speed = new Point(0, 0);
     }
 
+    public void setMoveTime(int finishedCount) {
+        moveTimeCounter.setFinishedCount(finishedCount);
+    }
+
     public abstract void action();
     public void moveDistance(int dx, int dy) {
         Point newLoc = bounds.getLocation();

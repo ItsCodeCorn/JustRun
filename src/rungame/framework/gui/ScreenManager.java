@@ -2,8 +2,6 @@ package rungame.framework.gui;
 
 import javax.swing.JFrame;
 
-import java.awt.event.KeyListener;
-
 public class ScreenManager {
     private JFrame frame;
     private GameScreen gameScreen;

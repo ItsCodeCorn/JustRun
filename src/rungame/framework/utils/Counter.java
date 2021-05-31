@@ -8,13 +8,17 @@ public class Counter {
         this.nowCount = 1;
         this.finishedCount = 10;
     }
-    public Counter(int finishedTime) {
+    public Counter(int finishedCount) {
         this.nowCount = 0;
-        this.finishedCount = finishedTime;
+        this.finishedCount = finishedCount;
     }
 
     public void setFinishedCount(int finishedCount) {
         this.finishedCount = finishedCount;
+    }
+
+    public void reset() {
+        this.nowCount = 0;
     }
 
     public boolean count() {

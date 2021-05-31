@@ -1,5 +1,7 @@
 package rungame.game.states;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.lang.Math;
 import java.util.Vector;
@@ -14,8 +16,9 @@ import javax.swing.JLabel;
 import rungame.framework.Engine;
 import rungame.framework.utils.Counter;
 import rungame.game.RunGame;
+import rungame.game.effects.*;
 import rungame.game.entities.Entity;
-import rungame.game.entities.items.Item;
+import rungame.game.entities.items.EffectItem;
 import rungame.game.entities.Monster;
 import rungame.game.entities.Player;
 import rungame.game.entities.StaticEntity;
@@ -28,8 +31,8 @@ public class PlayingState extends State {
     private Player player;
     private LinkedList<Entity> entities;
     private LinkedList<Wall> walls;
-    private LinkedList<Item> items;
-    private int itemEffect;
+    private LinkedList<EffectItem> items;
+    private ArrayList<Effect> effects;
     private Counter summonMonsterCounter;
     private Counter summonItemCounter;
     private boolean gameOver;
@@ -39,7 +42,11 @@ public class PlayingState extends State {
         entities = new LinkedList<>();
         walls = new LinkedList<>();
         items = new LinkedList<>();
-        itemEffect = 0;
+        effects = new ArrayList<>();
+
+        effects.add(new SpeedUpPlayerEffect());
+        effects.add(new SpeedDownMonsterEffect());
+
         summonMonsterCounter = new Counter(Engine.SUMMON_MONSTER_TIME);
         summonItemCounter = new Counter(Engine.SUMMON_ITEM_TIME);
         gameOver = false;
@@ -62,10 +69,10 @@ public class PlayingState extends State {
     public void tick() {
         entities.forEach(entity -> entity.action());
 
-        checkPickUpItem();
         checkGameOver();
 
-        //checkItemsEffect();
+        checkPickUpItems();
+        checkItemsEffect();
 
         summonMonster();
         summonItem();
@@ -139,7 +146,7 @@ public class PlayingState extends State {
 
         Point loc = getRandomLocation();
 
-        Item item = EntityFactory.createRandomItem(loc.x, loc.y);
+        EffectItem item = EntityFactory.createRandomItem(loc.x, loc.y);
         item.printMap();
         items.addFirst(item);
     }
@@ -168,16 +175,21 @@ public class PlayingState extends State {
         }
     }*/
 
-    public void checkPickUpItem() {
-        for (Item item : items) {
+    public void checkPickUpItems() {
+        for (EffectItem item : items) {
             if (item.getLocation().equals(player.getLocation())) {
                 items.remove(item);
-                // TODO: pick up item
+                effects.get(item.getEffectId()).trigger();
                 return;
             }
         }
     }
 
+    public void checkItemsEffect() {
+        for (Effect effect : effects) {
+            effect.check();
+        }
+    }
 
     public int getMapWidth() {
         return map.getWidth();

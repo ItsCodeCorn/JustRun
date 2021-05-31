@@ -1,7 +1,6 @@
 package rungame.game.factories;
 
-import rungame.game.entities.items.Item;
-import rungame.game.entities.items.SpeedUpPlayerItem;
+import rungame.game.entities.items.*;
 import rungame.game.entities.Monster;
 import rungame.game.entities.Player;
 import rungame.game.entities.Wall;
@@ -19,10 +18,20 @@ public class EntityFactory {
         Wall wall = new Wall(x * 25, y * 25);
         return wall;
     }
-    public static Item createRandomItem(int x, int y) {
-        Item item = new SpeedUpPlayerItem(x * 25, y * 25);
+    public static EffectItem createRandomItem(int x, int y) {
+        int rd = (int)(Math.random() * 2);
 
-        // TODO Random
+        EffectItem item = null;
+
+        switch (rd) {
+        case 0:
+            item = new SpeedUpPlayerItem(x * 25, y * 25);
+            break;
+
+        case 1:
+            item = new SpeedDownMonsterItem(x * 25, y * 25);
+            break;
+        }
 
         return item;
     }
