@@ -12,7 +12,7 @@ public class GameScreen extends JPanel {
     private PlayingState playingState;
     private long startTime;
     private long previousTime;
-    private long currentTime;
+    private long tick = 0;
     private final Font STRING_FONT = new Font("SansSerif", Font.BOLD, 20);
 
     public GameScreen(PlayingState playingState) {
@@ -30,17 +30,17 @@ public class GameScreen extends JPanel {
 
         playingState.render(g);
 
-        currentTime = System.currentTimeMillis();
-
         g.setColor(new Color(200, 0, 20));
         g.setFont(STRING_FONT);
-        g.drawString("TICK: " + Long.toString(currentTime - previousTime), 1100, 20);
-        g.drawString("Times: " + Double.toString((currentTime - startTime) / 1000.0d), 1100, 50);
-        previousTime = currentTime;
+        g.drawString("TICK: " + Long.toString(tick), 1100, 20);
+        g.drawString("Times: " + Double.toString((System.currentTimeMillis() - startTime) / 1000.0d), 1100, 50);
+
+        repaint();
     }
 
-    public void render() {
-        repaint();
+    public void update() {
+        tick = System.currentTimeMillis() - previousTime;
+        previousTime = System.currentTimeMillis();
     }
 
     public PlayingState getPlayingState() {

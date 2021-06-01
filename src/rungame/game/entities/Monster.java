@@ -7,23 +7,30 @@ import java.util.LinkedList;
 import rungame.framework.Engine;
 import rungame.framework.resources.Resources;
 import rungame.framework.utils.Counter;
+import rungame.game.entities.tracking.MonsterTrackStrategy;
 
 public class Monster extends Entity {
     private Player player;
+    private MonsterTrackStrategy originalTrackStrategy;
+    private MonsterTrackStrategy trackStrategy;
 
-    public Monster(int x, int y) {
+    public Monster(int x, int y, MonsterTrackStrategy trackStrategy) {
         super(Resources.MONSTER, 'M', new Rectangle(x, y, 25, 25));
 
         moveTimeCounter = new Counter(Engine.MONSTER_MOVE_TIME);
 
         player = Engine.getPlayer();
-        hasCollision = new LinkedList<>();
 
+        this.originalTrackStrategy = trackStrategy;
+        this.trackStrategy = trackStrategy;
+
+        hasCollision = new LinkedList<>();
         hasCollision.addFirst('*');
         hasCollision.addFirst('M');
         hasCollision.addFirst('U');
         hasCollision.addFirst('D');
         hasCollision.addFirst('E');
+        hasCollision.addFirst('S');
     }
 
     @Override
@@ -32,24 +39,23 @@ public class Monster extends Entity {
             return;
         }
 
-        Point playerLoc = player.getLocation();
-        Point monsterLoc = getLocation();
-
-        if (monsterLoc.x < playerLoc.x) {
-            moveDistance(25, 0);
-        } else if (monsterLoc.x > playerLoc.x) {
-            moveDistance(-25, 0);
-        }
-
-        if (monsterLoc.y < playerLoc.y) {
-            moveDistance(0, 25);
-        } else if (monsterLoc.y > playerLoc.y) {
-            moveDistance(0, -25);
-        }
+        trackStrategy.track(this);
 
         if (player.getLocation().equals(getLocation())) {
             Engine.getPlayingState().setGameOver(true);
         }
     }
 
+    public void setTrackStrategy(MonsterTrackStrategy trackStrategy) {
+        this.trackStrategy = trackStrategy;
+    }
+    public void resetTrackStrategy() {
+        this.trackStrategy = this.originalTrackStrategy;
+    }
+    public LinkedList<Character> getHasCollision() {
+        return hasCollision;
+    }
+    public Player getPlayer() {
+        return player;
+    }
 }

@@ -14,7 +14,7 @@ public class Player extends Entity {
     public Player(int x, int y) {
         super(Resources.PLAYER, 'P', new Rectangle(x, y, 25, 25));
 
-        moveTimeCounter = new Counter(0);
+        moveTimeCounter = new Counter(0L);
 
         hasCollision = new LinkedList<>();
         hasCollision.addFirst('*');
@@ -24,27 +24,30 @@ public class Player extends Entity {
     @Override
     public void action() {
         if (moveTimeCounter.count()) {
-            moveTimeCounter.setFinishedCount(0);
+            moveTimeCounter.setDuration(0);
 
             if (Input.isPressed(KeyEvent.VK_UP) || Input.isPressed(KeyEvent.VK_W)) {
-                moveDistance(0, -25);
-                moveTimeCounter.setFinishedCount(Engine.PLAYER_MOVE_TIME);
+                speed.translate(0, -25);
+                moveTimeCounter.setDuration(Engine.PLAYER_MOVE_TIME);
             }
 
             if (Input.isPressed(KeyEvent.VK_DOWN) || Input.isPressed(KeyEvent.VK_S)) {
-                moveDistance(0, 25);
-                moveTimeCounter.setFinishedCount(Engine.PLAYER_MOVE_TIME);
+                speed.translate(0, 25);
+                moveTimeCounter.setDuration(Engine.PLAYER_MOVE_TIME);
             }
 
             if (Input.isPressed(KeyEvent.VK_LEFT) || Input.isPressed(KeyEvent.VK_A)) {
-                moveDistance(-25, 0);
-                moveTimeCounter.setFinishedCount(Engine.PLAYER_MOVE_TIME);
+                speed.translate(-25, 0);
+                moveTimeCounter.setDuration(Engine.PLAYER_MOVE_TIME);
             }
 
             if (Input.isPressed(KeyEvent.VK_RIGHT) || Input.isPressed(KeyEvent.VK_D)) {
-                moveDistance(25, 0);
-                moveTimeCounter.setFinishedCount(Engine.PLAYER_MOVE_TIME);
+                speed.translate(25, 0);
+                moveTimeCounter.setDuration(Engine.PLAYER_MOVE_TIME);
             }
+
+            moveDistance(speed.x, speed.y);
+            speed.setLocation(0, 0);
         }
     }
 }

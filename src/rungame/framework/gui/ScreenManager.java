@@ -27,7 +27,7 @@ public class ScreenManager {
         frame.setVisible(true);
     }
 
-    public void render() {
-        gameScreen.render();
+    public void update() {
+        gameScreen.update();
     }
 }

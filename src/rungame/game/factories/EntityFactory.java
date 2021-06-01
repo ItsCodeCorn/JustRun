@@ -1,6 +1,7 @@
 package rungame.game.factories;
 
 import rungame.game.entities.items.*;
+import rungame.game.entities.tracking.*;
 import rungame.game.entities.Monster;
 import rungame.game.entities.Player;
 import rungame.game.entities.Wall;
@@ -11,7 +12,24 @@ public class EntityFactory {
         return player;
     }
     public static Monster createMonster(int x, int y) {
-        Monster monster = new Monster(x * 25, y * 25);
+        Monster monster = null;
+
+        int rd = (int)(Math.random() * 3);
+
+        switch (rd) {
+        case 0:
+            monster = new Monster(x * 25, y * 25, new StupidTrack());
+            break;
+
+        case 1:
+            monster = new Monster(x * 25, y * 25, new RadiusTrack(5));
+            break;
+
+        case 2:
+            monster = new Monster(x * 25, y * 25, new SmartTrack());
+            break;
+        }
+
         return monster;
     }
     public static Wall createWall(int x, int y) {
@@ -19,7 +37,7 @@ public class EntityFactory {
         return wall;
     }
     public static EffectItem createRandomItem(int x, int y) {
-        int rd = (int)(Math.random() * 3);
+        int rd = (int)(Math.random() * 4);
 
         EffectItem item = null;
 
@@ -34,6 +52,10 @@ public class EntityFactory {
 
         case 2:
             item = new EliminateMonstersItem(x * 25, y * 25);
+            break;
+
+        case 3:
+            item = new ScareMonstersItem(x * 25, y * 25);
             break;
         }
 

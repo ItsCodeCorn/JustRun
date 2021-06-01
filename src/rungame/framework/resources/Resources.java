@@ -11,6 +11,7 @@ public class Resources {
     public static final int SPEED_UP_PLAYER_ITEM = 3;
     public static final int SPEED_DOWN_MONSTER_ITEM = 4;
     public static final int ELIMINATE_MONSTERS_ITEM = 5;
+    public static final int SCARE_MONSTERS_ITEM = 6;
     //public static final int _ITEM = 5;
     //public static final int _ITEM = 6;
 
@@ -42,12 +43,22 @@ public class Resources {
                 TEXTURES.add(SpriteFactory.getSprite("EliminateMonstersItem"));
                 break;
 
+            case SCARE_MONSTERS_ITEM:
+                TEXTURES.add(SpriteFactory.getSprite("ScareMonstersItem"));
+                break;
             default:
                 break;
         }
     }
 
     public static Sprite getSprite(int texture) {
-        return TEXTURES.get(texture);
+        try {
+            return TEXTURES.get(texture);
+        } catch (Exception e) {
+            System.out.println("[錯誤][Resources] 無法取得Sprite. 檢查是否有將其加入.");
+            System.exit(0);
+        }
+
+        return null;
     }
 }

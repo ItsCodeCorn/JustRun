@@ -49,7 +49,11 @@ public class Map {
 
             reader.close();
         } catch (IOException e) {
-            System.out.println(e);
+            System.out.println("[錯誤][Map] 讀取地圖失敗. 請檢查路徑是否正確。");
+            System.exit(0);
+        } catch (RuntimeException e) {
+            System.out.println("[錯誤][Map] 讀取地圖失敗. 請檢查格式是否正確。");
+            System.exit(0);
         }
 
         return m;

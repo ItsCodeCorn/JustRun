@@ -1,33 +1,43 @@
 package rungame.framework.utils;
 
 public class Counter {
-    private int nowCount;
-    private int finishedCount;
+    private long startTime, duration;
 
     public Counter() {
-        this.nowCount = 1;
-        this.finishedCount = 10;
+        this.startTime = System.currentTimeMillis();
+        this.duration = 1000;
     }
-    public Counter(int finishedCount) {
-        this.nowCount = 0;
-        this.finishedCount = finishedCount;
+    public Counter(long duration) {
+        this.startTime = System.currentTimeMillis();
+        this.duration = duration;
     }
 
-    public void setFinishedCount(int finishedCount) {
-        this.finishedCount = finishedCount;
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 
     public void reset() {
-        this.nowCount = 0;
+        this.startTime = System.currentTimeMillis();
     }
 
     public boolean count() {
-        ++nowCount;
-        if (nowCount < finishedCount) {
+        // 當duration為0 持續 reset()
+        if (duration == 0) {
+            reset();
+            return true;
+        }
+
+        // 當起始時間+持續時間比現在還久時回傳false
+        if (startTime + duration > System.currentTimeMillis()) {
             return false;
         }
 
-        nowCount = 0;
+        // 避免lag造成counter執行多次
+        long cur = System.currentTimeMillis();
+        while (startTime + duration <= cur) {
+            startTime += duration;
+        }
+
         return true;
     }
 }

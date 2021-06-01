@@ -8,7 +8,7 @@ public class SpeedUpPlayerEffect extends Effect {
     }
 
     public void launch() {
-        Engine.getPlayingState().getPlayer().setMoveTime(Engine.PLAYER_MOVE_TIME * 3 / 4);
+        Engine.getPlayingState().getPlayer().setMoveTime(Engine.PLAYER_MOVE_TIME * 7 / 10);
     }
 
     public void reset() {

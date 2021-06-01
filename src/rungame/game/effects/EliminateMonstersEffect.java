@@ -7,7 +7,7 @@ import rungame.game.entities.Monster;
 public class EliminateMonstersEffect extends Effect {
     public EliminateMonstersEffect() {
         super();
-        effectCounter.setFinishedCount(0);
+        effectCounter.setDuration(0L);
     }
 
     public void launch() {

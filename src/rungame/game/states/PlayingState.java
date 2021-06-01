@@ -38,7 +38,7 @@ public class PlayingState extends State {
     private boolean gameOver;
 
     public PlayingState() {
-        map = Map.loadMap("Level");
+        map = Map.loadMap("Maze");
         entities = new LinkedList<>();
         walls = new LinkedList<>();
         items = new LinkedList<>();
@@ -47,6 +47,7 @@ public class PlayingState extends State {
         effects.add(new SpeedUpPlayerEffect());
         effects.add(new SpeedDownMonsterEffect());
         effects.add(new EliminateMonstersEffect());
+        effects.add(new ScareMonstersEffect());
 
         summonMonsterCounter = new Counter(Engine.SUMMON_MONSTER_TIME);
         summonItemCounter = new Counter(Engine.SUMMON_ITEM_TIME);
@@ -54,6 +55,7 @@ public class PlayingState extends State {
     }
 
     public void init() {
+        System.out.println("[執行階段][PlayingState] init 執行中...");
         player = EntityFactory.createPlayer(1, 1);
         player.printMap();
 
@@ -61,9 +63,10 @@ public class PlayingState extends State {
 
         entities.addFirst(player);
 
-        summonMonsterCounter.setFinishedCount(0);
+        summonMonsterCounter.setDuration(0L);
         summonMonster();
-        summonMonsterCounter.setFinishedCount(Engine.SUMMON_MONSTER_TIME);
+        summonMonsterCounter.setDuration(Engine.SUMMON_MONSTER_TIME);
+        System.out.println("[執行階段][PlayingState] init 執行完成.");
     }
 
     @Override
@@ -121,7 +124,7 @@ public class PlayingState extends State {
         }
 
         entities.remove(player);
-        Engine.render();
+        Engine.update();
         Engine.stop();
     }
 /*
@@ -185,7 +188,14 @@ public class PlayingState extends State {
         for (EffectItem item : items) {
             if (item.getLocation().equals(player.getLocation())) {
                 items.remove(item);
-                effects.get(item.getEffectId()).trigger();
+
+                try {
+                    effects.get(item.getEffectId()).trigger();
+                } catch (RuntimeException e) {
+                    System.out.println("[錯誤][PlayingState] 啟動效果失敗. 檢查是否有加入效果.");
+                    System.exit(0);
+                }
+
                 return;
             }
         }

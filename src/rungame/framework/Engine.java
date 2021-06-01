@@ -14,14 +14,17 @@ public class Engine {
     private static PlayingState playingState;
     private static ScreenManager screenManager;
     private static Timer timer;
-    public static final int TICK = 45; // 0.03s
+    public static final int TICK = 30; // 0.03s
     //private static boolean running;
-    public static final int SUMMON_MONSTER_TIME = (int)(20.0d * (1000.0d / TICK) + 0.5d);
-    public static final int SUMMON_ITEM_TIME = (int)(10.0d * (1000.0d / TICK) + 0.5d);
-    public static final int MONSTER_MOVE_TIME = (int)(0.24d * (1000.0d / TICK) + 0.5d);
-    public static final int PLAYER_MOVE_TIME = (int)(0.13d * (1000.0d / TICK) + 0.5d);
+    public static final long SUMMON_MONSTER_TIME = (long)(10.0d * 1000);
+    public static final long SUMMON_ITEM_TIME = (long)(5.0d * 1000);
+    public static final long MONSTER_MOVE_TIME = (long)(0.25d * 1000);
+    public static final long PLAYER_MOVE_TIME = (long)(0.15d * 1000);
 
     public static void init() {
+        System.out.print("\033[H\033[2J");
+        System.out.println("[執行階段][Engine] init 執行中...");
+
         screenManager = new ScreenManager();
 
         timer = new Timer(
@@ -29,12 +32,13 @@ public class Engine {
                 @Override
                 public void actionPerformed(ActionEvent event) {
                     playingState.tick();
-                    render();
+                    update();
                 }
             }
         );
 
         timer.setInitialDelay(0);
+        System.out.println("[執行階段][Engine] init 執行完成.");
     }
 
     public static void start() {
@@ -48,13 +52,12 @@ public class Engine {
         timer.start();
     }
 
-    public static void render() {
-        screenManager.render();
+    public static void update() {
+        screenManager.update();
     }
 
     public static void stop() {
         timer.stop();
-
     }
 
     public static PlayingState getPlayingState() {
