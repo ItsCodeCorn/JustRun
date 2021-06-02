@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import java.awt.Point;
+
 public class Map {
     private char[][] map;
     private int width;
@@ -31,7 +33,24 @@ public class Map {
         map[x][y] = c;
     }
 
+    public Point getPlayerLocation() {
+        Point playerLoc = new Point(1, 1);
+
+        Outer:
+        for (int y = 0; y < this.height; ++y) {
+            for (int x = 0; x < this.width; ++x) {
+                if (map[x][y] == 'P') {
+                    playerLoc = new Point(x, y);
+                    break Outer;
+                }
+            }
+        }
+
+        return playerLoc;
+    }
+
     public static Map loadMap(String filename) {
+        System.out.println("[執行階段][Map] loadMap 執行中...");
         Map m = new Map(1, 1);
 
         try {
@@ -49,13 +68,14 @@ public class Map {
 
             reader.close();
         } catch (IOException e) {
-            System.out.println("[錯誤][Map] 讀取地圖失敗. 請檢查路徑是否正確。");
+            System.out.println("[錯誤][Map] 讀取地圖失敗. 請檢查路徑是否正確.");
             System.exit(0);
         } catch (RuntimeException e) {
-            System.out.println("[錯誤][Map] 讀取地圖失敗. 請檢查格式是否正確。");
+            System.out.println("[錯誤][Map] 讀取地圖失敗. 請檢查格式是否正確.");
             System.exit(0);
         }
 
+        System.out.println("[執行階段][Map] loadMap 執行完成!");
         return m;
     }
 }

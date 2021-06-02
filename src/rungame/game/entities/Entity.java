@@ -19,8 +19,8 @@ public abstract class Entity extends StaticEntity {
         speed = new Point(0, 0);
     }
 
-    public void setMoveTime(long duration) {
-        moveTimeCounter.setDuration(duration);
+    public void setMoveTime(int moveTime) {
+        moveTimeCounter.setEndCount(moveTime);
     }
 
     public boolean canMove(int x, int y) {
@@ -78,5 +78,8 @@ public abstract class Entity extends StaticEntity {
         bounds.setLocation(x, y);
 
         printMap();
+    }
+    public LinkedList<Character> getHasCollision() {
+        return hasCollision;
     }
 }

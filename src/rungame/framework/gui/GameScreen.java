@@ -30,17 +30,16 @@ public class GameScreen extends JPanel {
 
         playingState.render(g);
 
+        tick = System.currentTimeMillis() - previousTime;
+        previousTime = System.currentTimeMillis();
         g.setColor(new Color(200, 0, 20));
         g.setFont(STRING_FONT);
         g.drawString("TICK: " + Long.toString(tick), 1100, 20);
         g.drawString("Times: " + Double.toString((System.currentTimeMillis() - startTime) / 1000.0d), 1100, 50);
-
-        repaint();
     }
 
-    public void update() {
-        tick = System.currentTimeMillis() - previousTime;
-        previousTime = System.currentTimeMillis();
+    public void render() {
+        repaint();
     }
 
     public PlayingState getPlayingState() {

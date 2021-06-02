@@ -52,9 +52,9 @@ public class SmartTrack extends MonsterTrackStrategy {
     private Point_ bfs() {
         Queue<Point_> q = new LinkedList<>();
 
-        Point_ now = null;
+        Point_ now = new Point_(monsterLoc.x, monsterLoc.y, null);
         Point_[] direction = {new Point_(1, 0, null), new Point_(-1, 0, null), new Point_(0, 1, null), new Point_(0, -1, null), new Point_(-1, -1, null), new Point_(-1, 1, null), new Point_(1, -1, null), new Point_(1, 1, null)};
-        Point_ p = new Point_(monsterLoc.x, monsterLoc.y, null);
+        Point_ p = new Point_(monsterLoc.x, monsterLoc.y, now);
         q.add(p);
 
         Outer:

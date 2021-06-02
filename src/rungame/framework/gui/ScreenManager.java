@@ -7,7 +7,7 @@ public class ScreenManager {
     private GameScreen gameScreen;
 
     public ScreenManager() {
-        frame = new JFrame("Run Game");
+        frame = new JFrame("Just Run!");
         frame.setSize(1280, 720);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
@@ -27,7 +27,7 @@ public class ScreenManager {
         frame.setVisible(true);
     }
 
-    public void update() {
-        gameScreen.update();
+    public void render() {
+        gameScreen.render();
     }
 }

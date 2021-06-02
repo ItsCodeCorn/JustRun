@@ -1,13 +1,13 @@
 package rungame.game;
 
-import javax.swing.SwingUtilities;
+import java.awt.EventQueue;
 
 import rungame.framework.Engine;
 import rungame.framework.resources.ResourcesLoader;
 
-public class RunGame {
+public class Main {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(
+        EventQueue.invokeLater(
             new Runnable() {
                 @Override
                 public void run() {

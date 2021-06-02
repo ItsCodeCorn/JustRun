@@ -1,7 +1,6 @@
 package rungame.game.states;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.lang.Math;
 import java.util.Vector;
@@ -10,18 +9,14 @@ import java.awt.Rectangle;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-
 import rungame.framework.Engine;
+import rungame.framework.resources.Resources;
 import rungame.framework.utils.Counter;
-import rungame.game.RunGame;
 import rungame.game.effects.*;
 import rungame.game.entities.Entity;
 import rungame.game.entities.items.EffectItem;
 import rungame.game.entities.Monster;
 import rungame.game.entities.Player;
-import rungame.game.entities.StaticEntity;
 import rungame.game.entities.Wall;
 import rungame.game.factories.EntityFactory;
 import rungame.game.map.Map;
@@ -38,16 +33,11 @@ public class PlayingState extends State {
     private boolean gameOver;
 
     public PlayingState() {
-        map = Map.loadMap("Maze");
+        map = null;
         entities = new LinkedList<>();
         walls = new LinkedList<>();
         items = new LinkedList<>();
         effects = new ArrayList<>();
-
-        effects.add(new SpeedUpPlayerEffect());
-        effects.add(new SpeedDownMonsterEffect());
-        effects.add(new EliminateMonstersEffect());
-        effects.add(new ScareMonstersEffect());
 
         summonMonsterCounter = new Counter(Engine.SUMMON_MONSTER_TIME);
         summonItemCounter = new Counter(Engine.SUMMON_ITEM_TIME);
@@ -56,23 +46,32 @@ public class PlayingState extends State {
 
     public void init() {
         System.out.println("[執行階段][PlayingState] init 執行中...");
-        player = EntityFactory.createPlayer(1, 1);
+
+        map = Map.loadMap("Level");
+        Point playerLoc = map.getPlayerLocation();
+
+        player = EntityFactory.createPlayer(playerLoc.x, playerLoc.y);
         player.printMap();
+        entities.addFirst(player);
 
         addAllWall();
 
-        entities.addFirst(player);
+        effects.add(new SpeedUpPlayerEffect());
+        effects.add(new SpeedDownMonsterEffect());
+        effects.add(new EliminateMonstersEffect());
+        effects.add(new ScareMonstersEffect());
 
-        summonMonsterCounter.setDuration(0L);
+        summonMonsterCounter.setEndCount(0);
         summonMonster();
-        summonMonsterCounter.setDuration(Engine.SUMMON_MONSTER_TIME);
-        System.out.println("[執行階段][PlayingState] init 執行完成.");
+        summonMonsterCounter.setEndCount(Engine.SUMMON_MONSTER_TIME);
+        System.out.println("[執行階段][PlayingState] init 執行完成!");
     }
 
     @Override
     public void tick() {
         entities.forEach(entity -> entity.action());
 
+        checkMonstersCollision();
         checkGameOver();
 
         checkPickUpItems();
@@ -85,12 +84,23 @@ public class PlayingState extends State {
 
     @Override
     public void render(Graphics g) {
+        g.setColor(new Color(0, 0, 0));
+        g.fillRect(0, 0, 2000, 2000);
+
         g.setColor(new Color(50, 50, 50));
         g.fillRect(0, 0, getMapWidth() * 25, getMapHeight() * 25);
 
+        items.forEach(entity -> entity.draw(g));
         walls.forEach(entity -> entity.draw(g));
         entities.forEach(entity -> entity.draw(g));
-        items.forEach(entity -> entity.draw(g));
+
+        int effectsCount = 0;
+        for (Effect effect : effects) {
+            if (effect.isTrigger()) {
+                Resources.getSprite(effect.getResourceId()).draw(g, 1100, 150 + (25 * effectsCount));
+                ++effectsCount;
+            }
+        }
     }
 
     private void addAllWall() {
@@ -105,6 +115,23 @@ public class PlayingState extends State {
 
     public void printAllItems() {
         items.forEach(item -> item.printMap());
+    }
+
+    public void checkMonstersCollision() {
+        for (Entity entity : entities) {
+            if (entity instanceof Player) {
+                continue;
+            }
+
+            if (entity.getLocation().equals(player.getLocation())) {
+                if (player.isInvulnerable()) {
+                    entities.remove(entity);
+                } else {
+                    setGameOver(true);
+                }
+                return;
+            }
+        }
     }
 
     public boolean isCollideWith(int x, int y, char sign) {
@@ -124,7 +151,7 @@ public class PlayingState extends State {
         }
 
         entities.remove(player);
-        Engine.update();
+        Engine.render();
         Engine.stop();
     }
 /*
@@ -143,6 +170,10 @@ public class PlayingState extends State {
 
         Point loc = getRandomLocation();
 
+        if (loc == null) {
+            return;
+        }
+
         Monster monster = EntityFactory.createMonster(loc.x, loc.y);
         monster.printMap();
         entities.addFirst(monster);
@@ -154,6 +185,10 @@ public class PlayingState extends State {
         }
 
         Point loc = getRandomLocation();
+
+        if (loc == null) {
+            return;
+        }
 
         EffectItem item = EntityFactory.createRandomItem(loc.x, loc.y);
         item.printMap();
@@ -175,14 +210,12 @@ public class PlayingState extends State {
             }
         }
 
+        if (pool.size() == 0) {
+            return null;
+        }
+
         return pool.get((int)Math.floor(Math.random() * pool.size()));
     }
-/*
-    public void checkItemsEffect() {
-        if () {
-
-        }
-    }*/
 
     public void checkPickUpItems() {
         for (EffectItem item : items) {

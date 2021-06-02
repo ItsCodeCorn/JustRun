@@ -1,6 +1,5 @@
 package rungame.game.entities;
 
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.LinkedList;
 
@@ -27,10 +26,10 @@ public class Monster extends Entity {
         hasCollision = new LinkedList<>();
         hasCollision.addFirst('*');
         hasCollision.addFirst('M');
-        hasCollision.addFirst('U');
-        hasCollision.addFirst('D');
-        hasCollision.addFirst('E');
-        hasCollision.addFirst('S');
+        //hasCollision.addFirst('U');
+        //hasCollision.addFirst('D');
+        //hasCollision.addFirst('E');
+        //hasCollision.addFirst('S');
     }
 
     @Override
@@ -40,10 +39,6 @@ public class Monster extends Entity {
         }
 
         trackStrategy.track(this);
-
-        if (player.getLocation().equals(getLocation())) {
-            Engine.getPlayingState().setGameOver(true);
-        }
     }
 
     public void setTrackStrategy(MonsterTrackStrategy trackStrategy) {
@@ -51,9 +46,6 @@ public class Monster extends Entity {
     }
     public void resetTrackStrategy() {
         this.trackStrategy = this.originalTrackStrategy;
-    }
-    public LinkedList<Character> getHasCollision() {
-        return hasCollision;
     }
     public Player getPlayer() {
         return player;
