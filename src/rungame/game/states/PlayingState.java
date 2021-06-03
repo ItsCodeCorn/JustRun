@@ -13,11 +13,8 @@ import rungame.framework.Engine;
 import rungame.framework.resources.Resources;
 import rungame.framework.utils.Counter;
 import rungame.game.effects.*;
-import rungame.game.entities.Entity;
-import rungame.game.entities.items.EffectItem;
-import rungame.game.entities.Monster;
-import rungame.game.entities.Player;
-import rungame.game.entities.Wall;
+import rungame.game.entities.*;
+import rungame.game.entities.items.*;
 import rungame.game.factories.EntityFactory;
 import rungame.game.map.Map;
 
@@ -47,7 +44,7 @@ public class PlayingState extends State {
     public void init() {
         System.out.println("[執行階段][PlayingState] init 執行中...");
 
-        map = Map.loadMap("Level");
+        map = Map.loadMap("Test2");
         Point playerLoc = map.getPlayerLocation();
 
         player = EntityFactory.createPlayer(playerLoc.x, playerLoc.y);
@@ -91,13 +88,13 @@ public class PlayingState extends State {
         g.fillRect(0, 0, getMapWidth() * 25, getMapHeight() * 25);
 
         items.forEach(entity -> entity.draw(g));
-        walls.forEach(entity -> entity.draw(g));
         entities.forEach(entity -> entity.draw(g));
+        walls.forEach(entity -> entity.draw(g));
 
         int effectsCount = 0;
         for (Effect effect : effects) {
             if (effect.isTrigger()) {
-                Resources.getSprite(effect.getResourceId()).draw(g, 1100, 150 + (25 * effectsCount));
+                Resources.getSprite(effect.getResourceId()).draw(g, 1100, 75 + (25 * effectsCount));
                 ++effectsCount;
             }
         }
