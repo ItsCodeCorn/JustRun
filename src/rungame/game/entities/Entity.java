@@ -2,7 +2,6 @@ package rungame.game.entities;
 
 import java.util.LinkedList;
 
-import rungame.framework.Engine;
 import rungame.framework.utils.Counter;
 
 import java.awt.Rectangle;
@@ -25,7 +24,7 @@ public abstract class Entity extends StaticEntity {
 
     public boolean canMove(int x, int y) {
         for (char sign : hasCollision) {
-            if (Engine.getPlayingState().isCollideWith(x, y, sign)) {
+            if (playingState.isCollideWith(x, y, sign)) {
                 return false;
             }
         }

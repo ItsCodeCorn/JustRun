@@ -12,8 +12,7 @@ public class Resources {
     public static final int SPEED_DOWN_MONSTER_ITEM = 4;
     public static final int ELIMINATE_MONSTERS_ITEM = 5;
     public static final int SCARE_MONSTERS_ITEM = 6;
-    //public static final int _ITEM = 5;
-    //public static final int _ITEM = 6;
+    public static final int GAME_OVER = 7;
 
     private static final ArrayList<Sprite> TEXTURES = new ArrayList<>();
 
@@ -45,6 +44,10 @@ public class Resources {
 
             case SCARE_MONSTERS_ITEM:
                 TEXTURES.add(SpriteFactory.getSprite("ScareMonstersItem"));
+                break;
+
+            case GAME_OVER:
+                TEXTURES.add(SpriteFactory.getSprite("GameOver"));
                 break;
             default:
                 break;

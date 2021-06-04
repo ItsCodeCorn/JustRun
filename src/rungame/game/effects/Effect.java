@@ -2,6 +2,7 @@ package rungame.game.effects;
 
 import rungame.framework.Engine;
 import rungame.framework.utils.Counter;
+import rungame.game.states.PlayingState;
 
 public abstract class Effect {
     public static final int SPEED_UP_PLAYER_EFFECT = 0;
@@ -10,11 +11,14 @@ public abstract class Effect {
     public static final int SCARE_MONSTERS_EFFECT = 3;
 
     public static final int DURATION = (int)(5.0d * (1000 / Engine.TICK));
+
+    protected PlayingState playingState;
     private boolean trigger;
     private int resourceId;
     protected Counter effectCounter;
 
-    public Effect(int resourceId) {
+    public Effect(int resourceId, PlayingState playingState) {
+        this.playingState = playingState;
         this.resourceId = resourceId;
         this.trigger = false;
         this.effectCounter = new Counter(DURATION);

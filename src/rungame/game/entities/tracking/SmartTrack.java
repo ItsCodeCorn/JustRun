@@ -4,7 +4,6 @@ import java.awt.Point;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import rungame.framework.Engine;
 import rungame.game.entities.Monster;
 
 public class SmartTrack extends MonsterTrackStrategy {
@@ -30,8 +29,8 @@ public class SmartTrack extends MonsterTrackStrategy {
         this.monster = monster;
         playerLoc = monster.getPlayer().getLocation();
         monsterLoc = monster.getLocation();
-        width = Engine.getPlayingState().getMapWidth();
-        height = Engine.getPlayingState().getMapHeight();
+        width = monster.getPlayingState().getMapWidth();
+        height = monster.getPlayingState().getMapHeight();
         map = new char[width][height];
 
         playerLoc.x /= 25;
@@ -41,7 +40,7 @@ public class SmartTrack extends MonsterTrackStrategy {
 
         for (int y = 0; y < height; ++y) {
             for (int x = 0; x < width; ++x) {
-                map[x][y] = Engine.getPlayingState().getMapChar(x, y);
+                map[x][y] = monster.getPlayingState().getMapChar(x, y);
             }
         }
 

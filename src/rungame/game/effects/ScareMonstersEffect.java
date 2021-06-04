@@ -4,19 +4,19 @@ import rungame.game.entities.Entity;
 import rungame.game.entities.Monster;
 import rungame.game.entities.Player;
 import rungame.game.entities.tracking.ScareTrack;
-import rungame.framework.Engine;
+import rungame.game.states.PlayingState;
 import rungame.framework.resources.Resources;
 
 public class ScareMonstersEffect extends Effect {
-    public ScareMonstersEffect() {
-        super(Resources.SCARE_MONSTERS_ITEM);
+    public ScareMonstersEffect(PlayingState playingState) {
+        super(Resources.SCARE_MONSTERS_ITEM, playingState);
     }
 
     public void launch() {
-        Engine.getPlayer().setInvulnerable(true);
-        Engine.getPlayer().getHasCollision().remove((Character)'M');
+        playingState.getPlayer().setInvulnerable(true);
+        playingState.getPlayer().getHasCollision().remove((Character)'M');
 
-        for (Entity entity : Engine.getPlayingState().getEntities()) {
+        for (Entity entity : playingState.getEntities()) {
             if (entity instanceof Player) {
                 continue;
             }
@@ -26,10 +26,10 @@ public class ScareMonstersEffect extends Effect {
     }
 
     public void reset() {
-        Engine.getPlayer().setInvulnerable(false);
-        Engine.getPlayer().getHasCollision().add('M');
+        playingState.getPlayer().setInvulnerable(false);
+        playingState.getPlayer().getHasCollision().add('M');
 
-        for (Entity entity : Engine.getPlayingState().getEntities()) {
+        for (Entity entity : playingState.getEntities()) {
             if (entity instanceof Player) {
                 continue;
             }

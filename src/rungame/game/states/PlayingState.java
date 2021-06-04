@@ -6,10 +6,13 @@ import java.lang.Math;
 import java.util.Vector;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
 import rungame.framework.Engine;
+import rungame.framework.gui.Input;
 import rungame.framework.resources.Resources;
 import rungame.framework.utils.Counter;
 import rungame.game.effects.*;
@@ -19,6 +22,7 @@ import rungame.game.factories.EntityFactory;
 import rungame.game.map.Map;
 
 public class PlayingState extends State {
+    private long startTime;
     private Map map;
     private Player player;
     private LinkedList<Entity> entities;
@@ -28,8 +32,10 @@ public class PlayingState extends State {
     private Counter summonMonsterCounter;
     private Counter summonItemCounter;
     private boolean gameOver;
+    private boolean pReset;
 
-    public PlayingState() {
+    public PlayingState(StateManager stateManager) {
+        super(stateManager);
         map = null;
         entities = new LinkedList<>();
         walls = new LinkedList<>();
@@ -41,39 +47,43 @@ public class PlayingState extends State {
         gameOver = false;
     }
 
+    @Override
     public void init() {
         System.out.println("[執行階段][PlayingState] init 執行中...");
 
-        map = Map.loadMap("Test2");
+        map = Map.loadMap("Maze");
         Point playerLoc = map.getPlayerLocation();
 
-        player = EntityFactory.createPlayer(playerLoc.x, playerLoc.y);
+        player = EntityFactory.createPlayer(playerLoc.x, playerLoc.y, this);
         player.printMap();
         entities.addFirst(player);
 
         addAllWall();
 
-        effects.add(new SpeedUpPlayerEffect());
-        effects.add(new SpeedDownMonsterEffect());
-        effects.add(new EliminateMonstersEffect());
-        effects.add(new ScareMonstersEffect());
+        effects.add(new SpeedUpPlayerEffect(this));
+        effects.add(new SpeedDownMonsterEffect(this));
+        effects.add(new EliminateMonstersEffect(this));
+        effects.add(new ScareMonstersEffect(this));
 
         summonMonsterCounter.setEndCount(0);
         summonMonster();
         summonMonsterCounter.setEndCount(Engine.SUMMON_MONSTER_TIME);
+        startTime = System.currentTimeMillis();
         System.out.println("[執行階段][PlayingState] init 執行完成!");
     }
 
     @Override
     public void tick() {
+        input();
+
         entities.forEach(entity -> entity.action());
+        printAllItems();
 
         checkMonstersCollision();
         checkGameOver();
 
         checkPickUpItems();
         checkItemsEffect();
-        printAllItems();
 
         summonMonster();
         summonItem();
@@ -98,13 +108,30 @@ public class PlayingState extends State {
                 ++effectsCount;
             }
         }
+
+        g.setFont(new Font("SansSerif", Font.BOLD, 20));
+        g.setColor(new Color(200, 0, 255));
+        g.drawString("Times: " + Double.toString((System.currentTimeMillis() - startTime) / 1000.0d), 0, 660);
+    }
+
+    @Override
+    public void input() {
+        if (Input.isReleased(KeyEvent.VK_P)) {
+            pReset = true;
+        }
+
+        if (pReset && Input.isPressed(KeyEvent.VK_P)) {
+            pReset = false;
+
+            stateManager.nextState(new PauseState(stateManager));
+        }
     }
 
     private void addAllWall() {
         for (int x = 0; x < map.getWidth(); ++x) {
             for (int y = 0; y < map.getHeight(); ++y) {
                 if (map.getChar(x, y) == '*') {
-                    walls.addFirst(EntityFactory.createWall(x, y));
+                    walls.addFirst(EntityFactory.createWall(x, y, this));
                 }
             }
         }
@@ -149,7 +176,13 @@ public class PlayingState extends State {
 
         entities.remove(player);
         Engine.render();
-        Engine.stop();
+
+        try {
+            Thread.sleep(5);
+        } catch (InterruptedException e) {
+        }
+
+        stateManager.nextState(new GameOverState(stateManager));
     }
 /*
     private void displayGameOver() {
@@ -171,7 +204,7 @@ public class PlayingState extends State {
             return;
         }
 
-        Monster monster = EntityFactory.createMonster(loc.x, loc.y);
+        Monster monster = EntityFactory.createMonster(loc.x, loc.y, this);
         monster.printMap();
         entities.addFirst(monster);
     }
@@ -187,7 +220,7 @@ public class PlayingState extends State {
             return;
         }
 
-        EffectItem item = EntityFactory.createRandomItem(loc.x, loc.y);
+        EffectItem item = EntityFactory.createRandomItem(loc.x, loc.y, this);
         item.printMap();
         items.addFirst(item);
     }

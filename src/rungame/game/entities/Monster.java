@@ -18,8 +18,7 @@ public class Monster extends Entity {
 
         moveTimeCounter = new Counter(Engine.MONSTER_MOVE_TIME);
 
-        player = Engine.getPlayer();
-
+        this.player = null;
         this.originalTrackStrategy = trackStrategy;
         this.trackStrategy = trackStrategy;
 
@@ -46,6 +45,10 @@ public class Monster extends Entity {
     }
     public void resetTrackStrategy() {
         this.trackStrategy = this.originalTrackStrategy;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
     public Player getPlayer() {
         return player;

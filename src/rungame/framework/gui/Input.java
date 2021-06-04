@@ -19,6 +19,9 @@ public class Input extends KeyAdapter {
     public static boolean isPressed(Integer keyCode) {
         return input.pressed.contains(keyCode);
     }
+    public static boolean isReleased(Integer keyCode) {
+        return !input.pressed.contains(keyCode);
+    }
     public static void listenTo(JPanel panel) {
         panel.addKeyListener(input);
     }
