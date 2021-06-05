@@ -13,28 +13,30 @@ import rungame.framework.resources.Text;
 public class PauseState extends State {
     private int index;
     private boolean enterReset;
-    private Text pause;
+    private Text resume;
     private Text exit;
+    private boolean init;
 
     public PauseState(StateManager stateManager) {
         super(stateManager);
 
         this.enterReset = false;
 
-        this.pause = new Text("PAUSE");
-        this.exit = new Text("EXIT");
+        this.resume = new Text("Resume");
+        this.exit = new Text("Exit");
     }
 
     @Override
     public void init() {
         System.out.println("[執行階段][PauseState] init 執行中...");
         this.index = 0;
+        this.init = true;
 
-        this.pause.setColor(0, 0, 0);
-        this.pause.setFont(Font.MONOSPACED, Font.BOLD, 100);
+        this.resume.setColor(160, 160, 160);
+        this.resume.setFont(Font.MONOSPACED, Font.BOLD, 50);
 
-        this.exit.setColor(0, 0, 0);
-        this.exit.setFont(Font.MONOSPACED, Font.BOLD, 100);
+        this.exit.setColor(160, 160, 160);
+        this.exit.setFont(Font.MONOSPACED, Font.BOLD, 50);
         System.out.println("[執行階段][PauseState] init 執行完成!");
     }
 
@@ -49,19 +51,22 @@ public class PauseState extends State {
 
     @Override
     public void render(Graphics g) {
-        g.setColor(new Color(240, 240, 240));
-        g.fillRect((1280 - 400) / 2, (720 - 300) / 2, 400, 300);
+        if (this.init) {
+            g.setColor(new Color(0, 0, 0, 100));
+            g.fillRect(0, 0, 1280, 720);
+            this.init = false;
+        }
 
         g.setColor(new Color(0, 0, 0));
-        Font font = new Font(Font.MONOSPACED, Font.BOLD, 100);
+        Font font = new Font(Font.MONOSPACED, Font.BOLD, 50);
         FontMetrics fontMetrics = g.getFontMetrics(font);
-        int x = 0 + (1280 - fontMetrics.stringWidth("START")) / 2;
-        int y = 0 + ((720 - fontMetrics.getHeight()) / 2) + 20;
+        int x = 0 + (1280 - fontMetrics.stringWidth("Resume")) / 2;
+        int y = 0 + ((720 - fontMetrics.getHeight()) / 2);
 
-        this.pause.draw(g, x, y);
+        this.resume.draw(g, x, y);
 
-        x = 0 + (1280 - fontMetrics.stringWidth("EXIT")) / 2;
-        this.exit.draw(g, x, y + 150);
+        x = 0 + (1280 - fontMetrics.stringWidth("Exit")) / 2;
+        this.exit.draw(g, x, y + 50);
     }
 
     @Override
@@ -98,13 +103,13 @@ public class PauseState extends State {
     public void checkIndex() {
         switch (index) {
         case 0:
-            this.pause.setColor(160, 160, 160);
-            this.exit.setColor(0, 0, 0);
+            this.resume.setColor(255, 0, 255);
+            this.exit.setColor(160, 160, 160);
             break;
 
         case 1:
-            this.pause.setColor(0, 0, 0);
-            this.exit.setColor(160, 160, 160);
+            this.resume.setColor(160, 160, 160);
+            this.exit.setColor(255, 0, 255);
             break;
         }
     }

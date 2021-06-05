@@ -15,6 +15,7 @@ import rungame.framework.Engine;
 import rungame.framework.gui.Input;
 import rungame.framework.resources.Resources;
 import rungame.framework.utils.Counter;
+import rungame.framework.utils.MazeGenerator;
 import rungame.game.effects.*;
 import rungame.game.entities.*;
 import rungame.game.entities.items.*;
@@ -51,7 +52,8 @@ public class PlayingState extends State {
     public void init() {
         System.out.println("[執行階段][PlayingState] init 執行中...");
 
-        map = Map.loadMap("Maze");
+        //map = Map.loadMap("Maze");
+        map = MazeGenerator.generateMaze(49, 25, MazeGenerator.RANDOMIZED_PRIM);
         Point playerLoc = map.getPlayerLocation();
 
         player = EntityFactory.createPlayer(playerLoc.x, playerLoc.y, this);
@@ -92,7 +94,7 @@ public class PlayingState extends State {
     @Override
     public void render(Graphics g) {
         g.setColor(new Color(0, 0, 0));
-        g.fillRect(0, 0, 2000, 2000);
+        g.fillRect(0, 0, 1280, 720);
 
         g.setColor(new Color(50, 50, 50));
         g.fillRect(0, 0, getMapWidth() * 25, getMapHeight() * 25);
@@ -104,7 +106,7 @@ public class PlayingState extends State {
         int effectsCount = 0;
         for (Effect effect : effects) {
             if (effect.isTrigger()) {
-                Resources.getSprite(effect.getResourceId()).draw(g, 1100, 75 + (25 * effectsCount));
+                Resources.getSprite(effect.getResourceId()).draw(g, 150 + (25 * effectsCount), 640);
                 ++effectsCount;
             }
         }
@@ -178,21 +180,13 @@ public class PlayingState extends State {
         Engine.render();
 
         try {
-            Thread.sleep(5);
+            Thread.sleep(1);
         } catch (InterruptedException e) {
         }
 
         stateManager.nextState(new GameOverState(stateManager));
     }
-/*
-    private void displayGameOver() {
-        JLabel gameOver = new JLabel(new ImageIcon("res/GameOver.png"));
 
-        gameOver.setBounds(0, 0, 500, 250);
-        gameOver.setLocation(390, 235);
-        RunGame.getGamePanel().add(gameOver);
-    }
-*/
     public void summonMonster() {
         if (!summonMonsterCounter.count()) {
             return;
