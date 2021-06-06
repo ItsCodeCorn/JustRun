@@ -10,11 +10,11 @@ public class Engine {
     private static ScreenManager screenManager;
     private static Thread thread;
     public static boolean running;
-    public static final int TICK = 20; // 0.02s
+    public static final int TICK = 15; // 0.02s
     public static final int SUMMON_MONSTER_TIME = (int)(1.00d * (1000 / TICK));
     public static final int SUMMON_ITEM_TIME = (int)(1.00d * (1000 / TICK));
     public static final int MONSTER_MOVE_TIME = (int)(0.20d * (1000 / TICK));
-    public static final int PLAYER_MOVE_TIME = (int)(0.14d * (1000 / TICK));
+    public static final int PLAYER_MOVE_TIME = (int)(0.13d * (1000 / TICK));
 
     public static void init() {
         System.out.print("\033[H\033[2J");
@@ -31,14 +31,16 @@ public class Engine {
                 private long currentTime;
                 @Override
                 public void run() {
-                    while (running) {
-                        currentTime = System.currentTimeMillis();
+                    while (true) {
+                        while (running) {
+                            currentTime = System.currentTimeMillis();
 
-                        if (currentTime - previousTime >= TICK) {
-                            stateManager.tick();
-                            render();
+                            if (currentTime - previousTime >= TICK) {
+                                stateManager.tick();
+                                render();
 
-                            previousTime = currentTime;
+                                previousTime = currentTime;
+                            }
                         }
                     }
                 }
@@ -65,8 +67,15 @@ public class Engine {
         screenManager.render();
     }
 
-    public static void stop() {
+    public static void sleep() {
         running = false;
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+        }
+    }
+    public static void wake() {
+        running = true;
     }
 
     public static StateManager getStateManager() {

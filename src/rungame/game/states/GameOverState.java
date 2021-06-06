@@ -14,12 +14,17 @@ import rungame.framework.resources.Text;
 
 public class GameOverState extends State {
     private Sprite gameOver;
+    private int index;
     private Text restart;
+    private Text menu;
 
     public GameOverState(StateManager stateManager) {
         super(stateManager);
 
-        restart = new Text("Restart?");
+        this.index = 0;
+
+        restart = new Text("Restart");
+        menu = new Text("Return to menu");
 
         gameOver = null;
     }
@@ -33,12 +38,17 @@ public class GameOverState extends State {
         restart.setColor(255, 0, 255);
         restart.setFont(Font.MONOSPACED, Font.BOLD, 50);
 
+        menu.setColor(255, 0, 255);
+        menu.setFont(Font.MONOSPACED, Font.BOLD, 50);
+
         System.out.println("[執行階段][GameOverState] init 執行完成!");
     }
 
     @Override
     public void tick() {
         this.input();
+
+        this.checkIndex();
 
         Engine.render();
     }
@@ -49,20 +59,63 @@ public class GameOverState extends State {
         int y = (720 - gameOver.getHeight()) / 2;
 
         g.setColor(new Color(255, 255, 255));
-        g.fillRect(x, y + gameOver.getHeight() - 40, gameOver.getWidth(), 100);
+        g.fillRect(x, y + gameOver.getHeight() - 40, gameOver.getWidth(), 140);
 
         gameOver.draw(g, x, y - 40);
 
         FontMetrics fontMetrics = g.getFontMetrics(new Font(Font.MONOSPACED, Font.BOLD, 50));
+        int textX = x + (gameOver.getWidth() - fontMetrics.stringWidth("Restart")) / 2;
+        int textY = y + gameOver.getHeight() + (100 - fontMetrics.getHeight()) / 2;
+        restart.draw(g, textX, textY);
 
-        restart.draw(g, x + (gameOver.getWidth() - fontMetrics.stringWidth("Restart?")) / 2, y + gameOver.getHeight() + (100 - fontMetrics.getHeight()) / 2);
+        textX = x + (gameOver.getWidth() - fontMetrics.stringWidth("Return to menu")) / 2;
+        textY = textY + 50;
+        menu.draw(g, textX, textY);
     }
 
     @Override
     public void input() {
-        if (Input.isPressed(KeyEvent.VK_ENTER)) {
+        if (Input.isPressedOnce(KeyEvent.VK_W) || Input.isPressedOnce(KeyEvent.VK_UP)) {
+            if (index > 0) {
+                --index;
+            }
+        }
+
+        if (Input.isPressedOnce(KeyEvent.VK_S) || Input.isPressedOnce(KeyEvent.VK_DOWN)) {
+            if (index < 1) {
+                ++index;
+            }
+        }
+
+        if (Input.isPressedOnce(KeyEvent.VK_ENTER)) {
+            Engine.sleep();
             stateManager.backState();
-            stateManager.nextState(new PlayingState(stateManager));
+            stateManager.backState();
+
+            switch (index) {
+            case 0:
+                this.stateManager.nextState(new ChooseMapState(this.stateManager));
+                break;
+
+            case 1:
+                break;
+            }
+
+            Engine.wake();
+        }
+    }
+
+    public void checkIndex() {
+        switch (index) {
+        case 0:
+            this.restart.setColor(255, 0, 255);
+            this.menu.setColor(0, 0, 0);
+            break;
+
+        case 1:
+            this.restart.setColor(0, 0, 0);
+            this.menu.setColor(255, 0, 255);
+            break;
         }
     }
 }

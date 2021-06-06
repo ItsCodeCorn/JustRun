@@ -63,22 +63,22 @@ public class MenuState extends State {
 
     @Override
     public void input() {
-        if (Input.isPressed(KeyEvent.VK_W) || Input.isPressed(KeyEvent.VK_UP)) {
+        if (Input.isPressedOnce(KeyEvent.VK_W) || Input.isPressedOnce(KeyEvent.VK_UP)) {
             if (index > 0) {
                 --index;
             }
         }
 
-        if (Input.isPressed(KeyEvent.VK_S) || Input.isPressed(KeyEvent.VK_DOWN)) {
+        if (Input.isPressedOnce(KeyEvent.VK_S) || Input.isPressedOnce(KeyEvent.VK_DOWN)) {
             if (index < 1) {
                 ++index;
             }
         }
 
-        if (Input.isPressed(KeyEvent.VK_ENTER)) {
+        if (Input.isPressedOnce(KeyEvent.VK_ENTER)) {
             switch (index) {
             case 0:
-                stateManager.nextState(new PlayingState(stateManager));
+                this.stateManager.nextState(new ChooseMapState(this.stateManager));
                 break;
 
             case 1:

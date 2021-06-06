@@ -71,23 +71,19 @@ public class PauseState extends State {
 
     @Override
     public void input() {
-        if (Input.isReleased(KeyEvent.VK_ENTER)) {
-            enterReset = true;
-        }
-
-        if (Input.isPressed(KeyEvent.VK_W) || Input.isPressed(KeyEvent.VK_UP)) {
+        if (Input.isPressedOnce(KeyEvent.VK_W) || Input.isPressedOnce(KeyEvent.VK_UP)) {
             if (index > 0) {
                 --index;
             }
         }
 
-        if (Input.isPressed(KeyEvent.VK_S) || Input.isPressed(KeyEvent.VK_DOWN)) {
+        if (Input.isPressedOnce(KeyEvent.VK_S) || Input.isPressedOnce(KeyEvent.VK_DOWN)) {
             if (index < 1) {
                 ++index;
             }
         }
 
-        if (enterReset && Input.isPressed(KeyEvent.VK_ENTER)) {
+        if (Input.isPressedOnce(KeyEvent.VK_ENTER)) {
             switch (index) {
             case 0:
                 stateManager.backState();

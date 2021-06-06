@@ -35,9 +35,9 @@ public class PlayingState extends State {
     private boolean gameOver;
     private boolean pReset;
 
-    public PlayingState(StateManager stateManager) {
+    public PlayingState(StateManager stateManager, Map map) {
         super(stateManager);
-        map = null;
+        this.map = map;
         entities = new LinkedList<>();
         walls = new LinkedList<>();
         items = new LinkedList<>();
@@ -52,8 +52,11 @@ public class PlayingState extends State {
     public void init() {
         System.out.println("[執行階段][PlayingState] init 執行中...");
 
-        //map = Map.loadMap("Maze");
-        map = MazeGenerator.generateMaze(49, 25, MazeGenerator.RANDOMIZED_PRIM);
+        if (map == null) {
+            map = Map.loadMap("Maze");
+            //map = MazeGenerator.generateMaze(49, 25, MazeGenerator.RANDOMIZED_PRIM);
+        }
+
         Point playerLoc = map.getPlayerLocation();
 
         player = EntityFactory.createPlayer(playerLoc.x, playerLoc.y, this);
@@ -179,12 +182,9 @@ public class PlayingState extends State {
         entities.remove(player);
         Engine.render();
 
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException e) {
-        }
-
+        Engine.sleep();
         stateManager.nextState(new GameOverState(stateManager));
+        Engine.wake();
     }
 
     public void summonMonster() {
