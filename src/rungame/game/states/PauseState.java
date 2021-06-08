@@ -12,15 +12,12 @@ import rungame.framework.resources.Text;
 
 public class PauseState extends State {
     private int index;
-    private boolean enterReset;
     private Text resume;
     private Text exit;
     private boolean init;
 
     public PauseState(StateManager stateManager) {
         super(stateManager);
-
-        this.enterReset = false;
 
         this.resume = new Text("Resume");
         this.exit = new Text("Exit");

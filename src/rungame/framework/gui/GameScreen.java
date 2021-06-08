@@ -26,7 +26,7 @@ public class GameScreen extends JPanel {
         Engine.getStateManager().render(g);
 
         g.setColor(new Color(255, 255, 255));
-        g.fillRect(0, 665, 80, 55);
+        g.fillRect(0, 665, 90, 55);
 
         tick = System.currentTimeMillis() - previousTime;
         previousTime = System.currentTimeMillis();
