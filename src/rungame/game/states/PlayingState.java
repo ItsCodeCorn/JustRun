@@ -15,7 +15,6 @@ import rungame.framework.Engine;
 import rungame.framework.gui.Input;
 import rungame.framework.resources.Resources;
 import rungame.framework.utils.Counter;
-import rungame.framework.utils.MazeGenerator;
 import rungame.game.effects.*;
 import rungame.game.entities.*;
 import rungame.game.entities.items.*;
@@ -53,7 +52,6 @@ public class PlayingState extends State {
 
         if (map == null) {
             map = Map.loadMap("Maze");
-            //map = MazeGenerator.generateMaze(49, 25, MazeGenerator.RANDOMIZED_PRIM);
         }
 
         Point playerLoc = map.getPlayerLocation();
