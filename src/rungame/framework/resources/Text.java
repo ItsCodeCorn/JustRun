@@ -16,7 +16,7 @@ public class Text {
     }
 
     public Text(String text) {
-        super();
+        this();
         this.text = text;
     }
 
