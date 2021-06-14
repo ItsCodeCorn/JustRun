@@ -135,11 +135,11 @@ public class PlayingState extends State {
         }
     }
 
-    public void printAllItems() {
+    private void printAllItems() {
         items.forEach(item -> item.printMap());
     }
 
-    public void checkMonstersCollision() {
+    private void checkMonstersCollision() {
         for (Entity entity : entities) {
             if (entity instanceof Player) {
                 continue;
@@ -167,7 +167,7 @@ public class PlayingState extends State {
     public void setGameOver(boolean gameOver) {
         this.gameOver = gameOver;
     }
-    public void checkGameOver() {
+    private void checkGameOver() {
         if (!gameOver) {
             return;
         }
@@ -180,7 +180,7 @@ public class PlayingState extends State {
         Engine.wake();
     }
 
-    public void summonMonster() {
+    private void summonMonster() {
         if (!summonMonsterCounter.count()) {
             return;
         }
@@ -196,7 +196,7 @@ public class PlayingState extends State {
         entities.addFirst(monster);
     }
 
-    public void summonItem() {
+    private void summonItem() {
         if (!summonItemCounter.count()) {
             return;
         }
@@ -234,7 +234,7 @@ public class PlayingState extends State {
         return pool.get((int)Math.floor(Math.random() * pool.size()));
     }
 
-    public void checkPickUpItems() {
+    private void checkPickUpItems() {
         for (EffectItem item : items) {
             if (item.getLocation().equals(player.getLocation())) {
                 items.remove(item);
@@ -251,7 +251,7 @@ public class PlayingState extends State {
         }
     }
 
-    public void checkItemsEffect() {
+    private void checkItemsEffect() {
         for (Effect effect : effects) {
             effect.check();
         }

@@ -93,7 +93,7 @@ public class PauseState extends State {
         }
     }
 
-    public void checkIndex() {
+    private void checkIndex() {
         switch (index) {
         case 0:
             this.resume.setColor(255, 0, 255);

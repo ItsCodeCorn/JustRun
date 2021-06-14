@@ -9,8 +9,8 @@ public abstract class State {
         this.stateManager = stateManager;
     }
 
-    public abstract void init();
-    public abstract void tick();
-    public abstract void render(Graphics g);
-    public abstract void input();
+    protected abstract void init();
+    protected abstract void tick();
+    protected abstract void render(Graphics g);
+    protected abstract void input();
 }

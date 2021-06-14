@@ -134,7 +134,7 @@ public class ChooseMapState extends State {
         }
     }
 
-    public void checkIndex() {
+    private void checkIndex() {
         switch (index) {
         case -1:
             this.skip.setColor(160, 160, 160);

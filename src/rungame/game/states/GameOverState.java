@@ -105,7 +105,7 @@ public class GameOverState extends State {
         }
     }
 
-    public void checkIndex() {
+    private void checkIndex() {
         switch (index) {
         case 0:
             this.restart.setColor(255, 0, 255);

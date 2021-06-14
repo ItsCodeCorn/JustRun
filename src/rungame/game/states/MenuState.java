@@ -100,7 +100,7 @@ public class MenuState extends State {
         }
     }
 
-    public void checkIndex() {
+    private void checkIndex() {
         switch (index) {
         case 0:
             this.start.setColor(160, 160, 160);

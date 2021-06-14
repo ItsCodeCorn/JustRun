@@ -29,7 +29,7 @@ public class GenerateMazeState extends State {
     public void init() {
         System.out.println("[執行階段][GenerateMazeState] init 執行中...");
 
-        init(map);
+        mapInit(map);
         list.add(new Point_(1, 1, 1, 1));
 
         System.out.println("[執行階段][GenerateMazeState] init 執行完成!");
@@ -68,7 +68,7 @@ public class GenerateMazeState extends State {
 
     }
 
-    private void init(Map map) {
+    private void mapInit(Map map) {
         for (int x = 0; x < map.getWidth(); ++x) {
             for (int y = 0; y < map.getHeight(); ++y) {
                 map.setChar(x, y, '*');
@@ -134,7 +134,7 @@ public class GenerateMazeState extends State {
         }
     }
 
-    public void checkCompleted() {
+    private void checkCompleted() {
         if (!completed) {
             return;
         }
