@@ -9,7 +9,7 @@ public class Engine {
     private static StateManager stateManager;
     private static ScreenManager screenManager;
     private static Thread thread;
-    public static boolean running;
+    private static boolean running;
     public static final int TICK = 15; // 0.02s
     public static final int SUMMON_MONSTER_TIME = (int)(20.00d * (1000 / TICK));
     public static final int SUMMON_ITEM_TIME = (int)(10.00d * (1000 / TICK));
