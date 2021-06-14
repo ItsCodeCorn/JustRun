@@ -12,12 +12,14 @@ import rungame.framework.resources.Text;
 
 public class MenuState extends State {
     private int index;
+    private Text title;
     private Text start;
     private Text exit;
 
     public MenuState(StateManager stateManager) {
         super(stateManager);
 
+        this.title = new Text("Just Run!");
         this.start = new Text("START");
         this.exit = new Text("EXIT");
     }
@@ -26,6 +28,9 @@ public class MenuState extends State {
     public void init() {
         System.out.println("[執行階段][MenuState] init 執行中...");
         this.index = 0;
+
+        this.title.setColor(200, 0, 0);
+        this.title.setFont(Font.SANS_SERIF, Font.BOLD, 180);
 
         this.start.setColor(0, 0, 0);
         this.start.setFont(Font.MONOSPACED, Font.BOLD, 100);
@@ -50,10 +55,17 @@ public class MenuState extends State {
         g.fillRect(0, 0, 2000, 2000);
 
         g.setColor(new Color(0, 0, 0));
-        Font font = new Font(Font.MONOSPACED, Font.BOLD, 100);
+        Font font = new Font(Font.SANS_SERIF, Font.BOLD, 180);
         FontMetrics fontMetrics = g.getFontMetrics(font);
-        int x = 0 + (1280 - fontMetrics.stringWidth("START")) / 2;
+        int x = 0 + (1280 - fontMetrics.stringWidth("Just Run!")) / 2;
         int y = 0 + ((720 - fontMetrics.getHeight()) / 2) + 100;
+
+        this.title.draw(g, x, y - 100);
+
+        font = new Font(Font.MONOSPACED, Font.BOLD, 100);
+        fontMetrics = g.getFontMetrics(font);
+        x = 0 + (1280 - fontMetrics.stringWidth("START")) / 2;
+        y = 0 + ((720 - fontMetrics.getHeight()) / 2) + 100;
 
         this.start.draw(g, x, y);
 

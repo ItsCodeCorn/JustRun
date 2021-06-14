@@ -10,6 +10,7 @@ public class SpeedDownMonsterEffect extends Effect {
         super(Resources.SPEED_DOWN_MONSTER_ITEM, playingState);
     }
 
+    @Override
     public void launch() {
         for (Entity entity : playingState.getEntities()) {
             if (entity == playingState.getPlayer()) {
@@ -19,6 +20,7 @@ public class SpeedDownMonsterEffect extends Effect {
         }
     }
 
+    @Override
     public void reset() {
         for (Entity entity : playingState.getEntities()) {
             if (entity == playingState.getPlayer()) {

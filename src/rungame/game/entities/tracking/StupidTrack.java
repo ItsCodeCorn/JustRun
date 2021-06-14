@@ -4,7 +4,8 @@ import java.awt.Point;
 
 import rungame.game.entities.Monster;
 
-public class StupidTrack extends MonsterTrackStrategy {
+public class StupidTrack implements MonsterTrackStrategy {
+    @Override
     public void track(Monster monster) {
         Point playerLoc = monster.getPlayer().getLocation();
         Point monsterLoc = monster.getLocation();

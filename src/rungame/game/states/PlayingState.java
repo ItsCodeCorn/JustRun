@@ -33,7 +33,6 @@ public class PlayingState extends State {
     private Counter summonMonsterCounter;
     private Counter summonItemCounter;
     private boolean gameOver;
-    private boolean pReset;
 
     public PlayingState(StateManager stateManager, Map map) {
         super(stateManager);
@@ -121,13 +120,7 @@ public class PlayingState extends State {
 
     @Override
     public void input() {
-        if (Input.isReleased(KeyEvent.VK_P)) {
-            pReset = true;
-        }
-
-        if (pReset && Input.isPressed(KeyEvent.VK_P)) {
-            pReset = false;
-
+        if (Input.isPressedOnce(KeyEvent.VK_P)) {
             stateManager.nextState(new PauseState(stateManager));
         }
     }

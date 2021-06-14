@@ -4,8 +4,10 @@ import java.awt.Point;
 
 import rungame.game.entities.Monster;
 
-public class ScareTrack extends MonsterTrackStrategy {
+public class ScareTrack implements MonsterTrackStrategy {
     private static Point[] direction = {new Point(25, 0), new Point(-25, 0), new Point(0, 25), new Point(0, -25)};
+
+    @Override
     public void track(Monster monster) {
         Point playerLoc = monster.getPlayer().getLocation();
         Point monsterLoc = monster.getLocation();

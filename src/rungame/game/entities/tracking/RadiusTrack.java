@@ -4,13 +4,14 @@ import java.awt.Point;
 
 import rungame.game.entities.Monster;
 
-public class RadiusTrack extends MonsterTrackStrategy {
+public class RadiusTrack implements MonsterTrackStrategy {
     private int radius;
 
     public RadiusTrack(int radius) {
         this.radius = radius;
     }
 
+    @Override
     public void track(Monster monster) {
         Point monsterLoc = monster.getLocation();
         Point playerLoc = monster.getPlayer().getLocation();

@@ -11,6 +11,7 @@ public class EliminateMonstersEffect extends Effect {
         effectCounter.setEndCount(0);
     }
 
+    @Override
     public void launch() {
         for (Entity entity : playingState.getEntities()) {
             if (!(entity instanceof Monster)) {
@@ -21,6 +22,7 @@ public class EliminateMonstersEffect extends Effect {
         playingState.getEntities().removeIf(entity -> entity instanceof Monster);
     }
 
+    @Override
     public void reset() {
 
     }

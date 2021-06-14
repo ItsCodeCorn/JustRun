@@ -12,6 +12,7 @@ public class ScareMonstersEffect extends Effect {
         super(Resources.SCARE_MONSTERS_ITEM, playingState);
     }
 
+    @Override
     public void launch() {
         playingState.getPlayer().setInvulnerable(true);
         playingState.getPlayer().getHasCollision().remove((Character)'M');
@@ -25,6 +26,7 @@ public class ScareMonstersEffect extends Effect {
         }
     }
 
+    @Override
     public void reset() {
         playingState.getPlayer().setInvulnerable(false);
         playingState.getPlayer().getHasCollision().add('M');

@@ -9,10 +9,12 @@ public class SpeedUpPlayerEffect extends Effect {
         super(Resources.SPEED_UP_PLAYER_ITEM, playingState);
     }
 
+    @Override
     public void launch() {
         playingState.getPlayer().setMoveTime(Engine.PLAYER_MOVE_TIME * 2 / 3);
     }
 
+    @Override
     public void reset() {
         playingState.getPlayer().setMoveTime(Engine.PLAYER_MOVE_TIME);
     }

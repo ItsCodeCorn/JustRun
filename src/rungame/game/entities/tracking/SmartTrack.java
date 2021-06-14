@@ -6,12 +6,12 @@ import java.util.Queue;
 
 import rungame.game.entities.Monster;
 
-public class SmartTrack extends MonsterTrackStrategy {
+public class SmartTrack implements MonsterTrackStrategy {
     private Monster monster;
     private Point playerLoc;
     private Point monsterLoc;
     private int width, height;
-    private char map[][];
+    private char[][] map;
 
     private class Point_ {
         public Point_(int x, int y, Point_ prev) {
@@ -25,6 +25,7 @@ public class SmartTrack extends MonsterTrackStrategy {
         public Point_ prev;
     }
 
+    @Override
     public void track(Monster monster) {
         this.monster = monster;
         playerLoc = monster.getPlayer().getLocation();

@@ -52,8 +52,8 @@ public abstract class Effect {
         }
     }
 
-    public abstract void launch();
-    public abstract void reset();
+    protected abstract void launch();
+    protected abstract void reset();
 
     public boolean isTrigger() {
         return trigger;
